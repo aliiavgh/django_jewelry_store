@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from rest_framework import serializers
 
 from applications.product.models import Product, Image, Material
@@ -33,6 +34,7 @@ class ProductSerializer(serializers.ModelSerializer):
         rep['images'] = images
         rep['likes'] = instance.likes.filter(like=True).count()
         rep['in favorites'] = instance.favorites.filter(favorite=True).count()
+        rep['rating'] = instance.rating.all().aggregate(Avg('rating'))['rating__avg']
         return rep
 
 

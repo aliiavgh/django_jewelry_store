@@ -33,3 +33,19 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f'{self.owner} - {self.favorite}'
+
+
+class Rating(models.Model):
+    CHOICES = (
+        (1, 'Bad'),
+        (2, 'Ok'),
+        (3, 'Fine'),
+        (4, 'Good'),
+        (5, 'Amazing')
+    )
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='rating')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='rating')
+    rating = models.SmallIntegerField(choices=CHOICES, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.owner} - {self.rating}'

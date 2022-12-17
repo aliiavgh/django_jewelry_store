@@ -1,8 +1,9 @@
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from applications.feedback.models import Like, Favorite
-from applications.feedback.serializers import FavoriteSerializer
+from applications.feedback.models import Like, Favorite, Rating
+from applications.feedback.serializers import FavoriteSerializer, RatingSerializer
 
 
 class LikeMixin:
@@ -30,3 +31,14 @@ class FavoriteMixin:
             status = 'Removed from favorites'
         return Response({'status': status})
 
+
+class RatingMixin:
+
+    @action(detail=True, methods=['POST'])
+    def rating(self, request, pk=None):
+        serializer = RatingSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        rating_obj, _ = Rating.objects.get_or_create(product_id=pk, owner=request.user)
+        rating_obj.rating = request.data['rating']
+        rating_obj.save()
+        return Response(request.data, status=status.HTTP_201_CREATED)

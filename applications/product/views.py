@@ -6,7 +6,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from applications.feedback.mixins import LikeMixin, FavoriteMixin
+from applications.feedback.mixins import LikeMixin, FavoriteMixin, RatingMixin
 from applications.product.models import Product, Material
 from applications.product.permissions import IsSeller
 from applications.product.serializers import ProductSerializer, MaterialSerializer
@@ -18,7 +18,7 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 1000
 
 
-class ProductViewSet(LikeMixin, FavoriteMixin, ModelViewSet):
+class ProductViewSet(LikeMixin, FavoriteMixin, RatingMixin, ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsSeller]

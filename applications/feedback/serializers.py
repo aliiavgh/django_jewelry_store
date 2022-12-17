@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from applications.feedback.models import Like, Review, Favorite
+from applications.feedback.models import Like, Review, Favorite, Rating
 from applications.product.serializers import ProductSerializer
 
 
@@ -25,3 +25,9 @@ class FavoriteSerializer(serializers.ModelSerializer):
         model = Favorite
         fields = ('product', )
 
+
+class RatingSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Rating
+        fields = ('rating', )
