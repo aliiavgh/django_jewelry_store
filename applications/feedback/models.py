@@ -16,7 +16,7 @@ class Like(models.Model):
 
 
 class Review(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='reviews')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -26,3 +26,10 @@ class Review(models.Model):
         return f'{self.owner} - {self.product}'
 
 
+class Favorite(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='favorites')
+    favorite = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.owner} - {self.favorite}'

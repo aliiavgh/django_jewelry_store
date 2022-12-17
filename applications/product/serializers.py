@@ -32,6 +32,7 @@ class ProductSerializer(serializers.ModelSerializer):
         images = [image['image'] for image in rep['images']]
         rep['images'] = images
         rep['likes'] = instance.likes.filter(like=True).count()
+        rep['in favorites'] = instance.favorites.filter(favorite=True).count()
         return rep
 
 
