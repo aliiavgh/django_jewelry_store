@@ -31,6 +31,7 @@ class ProductSerializer(serializers.ModelSerializer):
         rep = super().to_representation(instance)
         images = [image['image'] for image in rep['images']]
         rep['images'] = images
+        rep['likes'] = instance.likes.filter(like=True).count()
         return rep
 
 
