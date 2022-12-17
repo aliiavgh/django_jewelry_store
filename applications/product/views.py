@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import mixins
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAdminUser
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
-from applications.product.models import Product
+from applications.product.models import Product, Material
 from applications.product.permissions import IsSeller
-from applications.product.serializers import ProductSerializer
+from applications.product.serializers import ProductSerializer, MaterialSerializer
 
 
 class StandardResultsSetPagination(PageNumberPagination):
@@ -27,6 +28,13 @@ class ProductViewSet(ModelViewSet):
     ordering_fields = ['price']
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save(seller=self.request.user)
 
 
+class MaterialViewSet(mixins.CreateModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.ListModelMixin,
+                   GenericViewSet):
+    queryset = Material.objects.all()
+    serializer_class = MaterialSerializer
+    permission_classes = [IsAdminUser]
