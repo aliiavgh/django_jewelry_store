@@ -35,6 +35,7 @@ class ProductSerializer(serializers.ModelSerializer):
         rep['likes'] = instance.likes.filter(like=True).count()
         rep['in favorites'] = instance.favorites.filter(favorite=True).count()
         rep['rating'] = instance.rating.all().aggregate(Avg('rating'))['rating__avg']
+        rep['ordered products'] = instance.orders.filter(is_confirm=True).count()
         return rep
 
 

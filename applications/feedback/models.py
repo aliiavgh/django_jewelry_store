@@ -29,10 +29,10 @@ class Review(models.Model):
 class Favorite(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, related_name='favorites')
-    favorite = models.BooleanField(default=False)
+    is_favorite = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.owner} - {self.favorite}'
+        return f'{self.owner} - {self.is_favorite}'
 
 
 class Rating(models.Model):

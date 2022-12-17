@@ -16,7 +16,7 @@ def send_activation_email(email, activation_code):
 @app.task
 def send_password_confirmation_email(email, activation_code):
     send_mail(
-        'Activate the new password',
+        'Use this code to activate the new password.',
         activation_code,
         'aliyakomanovaa@gmail.com',
         [email]

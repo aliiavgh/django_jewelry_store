@@ -1,4 +1,4 @@
-from  rest_framework.permissions import BasePermission, SAFE_METHODS
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
 class IsSeller(BasePermission):
@@ -11,4 +11,3 @@ class IsSeller(BasePermission):
         if request.method in SAFE_METHODS:
             return True
         return request.user.is_authenticated and (request.user == obj.seller or request.user.is_staff)
-

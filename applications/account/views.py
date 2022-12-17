@@ -18,7 +18,8 @@ class RegisterAPIView(CreateAPIView):
 
 class ActivationAPIView(APIView):
 
-    def get(self, request, activation_code):
+    @staticmethod
+    def get(request, activation_code):
         user = get_object_or_404(User, activation_code=activation_code)
         user.is_active = True
         user.activation_code = ''
@@ -29,7 +30,8 @@ class ActivationAPIView(APIView):
 class ChangePasswordAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         serializer = ChangePasswordSerializer(data=request.data, context={'user': request.user})
         serializer.is_valid(raise_exception=True)
         serializer.set_new_password()
@@ -38,7 +40,8 @@ class ChangePasswordAPIView(APIView):
 
 class ForgotPasswordAPIView(APIView):
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         serializer = ForgotPasswordSerializer(data=request.data)
         serializer.is_valid()
         serializer.send_activation_code()
@@ -47,7 +50,8 @@ class ForgotPasswordAPIView(APIView):
 
 class ForgotPasswordConfirmAPIView(APIView):
 
-    def post(self, request):
+    @staticmethod
+    def post(request):
         serializer = ForgotPasswordConfirmSerializer(data=request.data)
         serializer.is_valid()
         serializer.set_new_password()

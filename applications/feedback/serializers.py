@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from applications.feedback.models import Like, Review, Favorite, Rating
-from applications.product.serializers import ProductSerializer
 
 
 class LikeSerializer(serializers.ModelSerializer):

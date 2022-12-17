@@ -6,7 +6,8 @@ class IsReviewOwner(BasePermission):
     def has_permission(self, request, view):
         return request.user.is_authenticated
 
-    def get_object_permission(self, request, view, obj):
+    @staticmethod
+    def get_object_permission(request, view, obj):
         if request.method in ['PUT', 'PATCH']:
             return request.user.is_authenticated and request.user == obj.owner
         return request.user.is_authenticated and (request.user == obj.owner or request.user.is_staff)

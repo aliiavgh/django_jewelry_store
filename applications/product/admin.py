@@ -13,7 +13,8 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ImageAdmin]
     list_display = ['id', 'title', 'total_likes']
 
-    def total_likes(self, obj):
+    @staticmethod
+    def total_likes(obj):
         return obj.likes.filter(like=True).count()
 
 
