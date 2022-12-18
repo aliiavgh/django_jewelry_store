@@ -26,7 +26,9 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
 
 class RatingSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.email')
+    product = serializers.ReadOnlyField(source='product.title')
 
     class Meta:
         model = Rating
-        fields = ('rating', )
+        fields = '__all__'

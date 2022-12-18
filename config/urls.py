@@ -24,7 +24,7 @@ schema_view = get_schema_view(
     openapi.Info(
         title='Online jewerly store',
         default_version='v1',
-        description='Online store'
+        description='Online jewelry store'
     ),
     public=True,
 )
@@ -34,6 +34,9 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger')),
     path('api/v1/account/', include('applications.account.urls')),
     path('api/v1/product/', include('applications.product.urls')),
-    path('api/v1/order/', include('applications.order.urls'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('api/v1/order/', include('applications.order.urls')),
+    path('api/v1/mailing/', include('applications.mailing.urls'))
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
