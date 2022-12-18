@@ -6,10 +6,18 @@ from applications.order.tasks import send_order_confirmation_email
 
 class OrderSerializer(serializers.ModelSerializer):
     consumer = serializers.CharField(required=False)
+    quantity = serializers.IntegerField()
 
     class Meta:
         model = Order
         exclude = ('confirmation_code', )
+
+    def validate(self, attrs):
+        order_quantity = attrs['quantity']
+        product_quantity = attrs['product'].quantity
+        if order_quantity > product_quantity:
+            raise serializers.ValidationError(f'Unfortunately, you can not order that much. Now in stock: {product_quantity}')
+        return attrs
 
     def create(self, validated_data):
         order = Order.objects.create(**validated_data)

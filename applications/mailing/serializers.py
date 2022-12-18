@@ -12,7 +12,6 @@ class SpamSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         request = self.context.get('request')
-        spam = Spam.objects.create(email=request.user)
+        spam = Spam.objects.create(email=request.user, **validated_data)
 
         return spam
-
