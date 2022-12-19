@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from applications.feedback.models import Like, Favorite, Rating
-from applications.feedback.serializers import RatingSerializer
+from applications.feedback.serializers import RatingSerializer, FavoriteSerializer
 
 
 class LikeMixin:
@@ -24,12 +24,18 @@ class FavoriteMixin:
     @action(detail=True, methods=['POST'])
     def add_to_favorites(self, request, pk=None):
         fav_obj, _ = Favorite.objects.get_or_create(product_id=pk, owner=request.user)
-        fav_obj.is_favorite = not fav_obj.favorite
+        fav_obj.is_favorite = not fav_obj.is_favorite
         fav_obj.save()
         status_ = 'in favorites'
         if not fav_obj.is_favorite:
             status_ = 'Removed from favorites'
         return Response({'status': status_})
+
+    @action(detail=False, methods=['GET'])
+    def get_favorites(self, request):
+        product = Favorite.objects.filter(is_favorite=True, owner=request.user)
+        product_list = FavoriteSerializer(product, many=True)
+        return Response(product_list.data, status=status.HTTP_200_OK)
 
 
 class RatingMixin:
