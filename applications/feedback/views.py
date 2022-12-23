@@ -10,8 +10,8 @@ class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [IsReviewOwner]
 
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+    """def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)"""
 
     def get_queryset(self):
         queryset = super().get_queryset()
